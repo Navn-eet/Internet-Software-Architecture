@@ -1,0 +1,130 @@
+All sql commands for w7:
+
+#To create the table Students;
+
+CREATE TABLE STUDENTS(
+    Student_ID INT NOT NULL AUTO_INCREMENT,
+    Firstname VARCHAR(255) NOT NULL,
+    Lastname VARCHAR(255) NOT NULL,
+    Age INT NOT NULL,
+    Gender VARCHAR(255) NOT NULL,
+    Grade VARCHAR(255) NOT NULL,
+    PRIMARY KEY (Student_ID)
+);
+
+
+#to fill in data:
+
+INSERT INTO students(Firstname,lastname,Age,Gender,Grade)
+VALUES ('Rakesh','Shrestha',19,'Male','A'),
+	 ('Rakesh','Shrestha',19,'Male','A'),
+       ('Rakesh','Shrestha',19,'Male','A')
+       ('Rakesh','Shrestha',19,'Male','A')
+       ('Rakesh','Shrestha',19,'Male','A');
+
+#to upgrade a specific student:
+
+UPDATE students SET Grade = 'F' WHERE Student_ID=2;
+SELECT * FROM students;
+
+
+--------------------------------------------------------------
+
+#to create tables for q2
+
+Table: Customers--
+
+CREATE TABLE Customers(
+    Customer_ID INT NOT NULL AUTO_INCREMENT,
+    Firstname VARCHAR(255) NOT NULL,
+    Lastname VARCHAR(255) NOT NULL,
+    Age INT NOT NULL,
+    Gender VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    PRIMARY KEY (Customer_ID)
+);
+
+INSERT INTO Customers(Firstname,lastname,Age,Gender,Email)
+VALUES ('Kabir','Sharma',25,'Male','kabir@gmail.com'),
+	 ('Haris','Shrestha',30,'Male','haris@gmail.com'),
+       ('Deepti','Singh',26,'Female','deepti@gmail.com');
+
+SELECT * FROM Customers;
+
+
+Table Orders:
+
+CREATE TABLE Orders(
+    OrderID INT NOT NULL Auto_INCREMENT,
+    CustomerID INT NOT NULL,
+    OrderDate VARCHAR(255) NOT NULL,
+    Total INT NOT NULL,
+    PRIMARY KEY (OrderID)
+);
+
+INSERT INTO Orders(CustomerID,OrderDate,Total)
+VALUES (1,'2023-04-6',1000),
+       (1,'2023-04-1',3000),
+       (2,'2023-03-22',3500),
+       (3,'2023-04-04',2300);
+
+
+SELECT * FROM Customers;
+
+
+
+Table OrderItems:
+
+CREATE TABLE OrderItems(
+    OrderItemID INT NOT NULL Auto_INCREMENT,
+    OrderID INT NOT NULL,
+    ProductItems VARCHAR(255) NOT NULL,
+    Quantity INT NOT NULL,
+    Price INT NOT NULL,
+    PRIMARY KEY (OrderItemID)
+);
+
+INSERT INTO OrderItems(OrderID,ProductItems,Quantity,Price)
+VALUES (1,'Product A',2,1200),
+       (1,'Product B',3,1345),
+       (2,'Product C',4,1360),
+       (3,'Product D',5,950),
+       (3,'Product E',1,1125),
+       (4,'Product F',2,1780),
+       (4,'Product G',1,1560),
+       (3,'Product H',3,1220);
+
+
+
+SELECT * FROM orderitems;
+
+
+---------------------------------------
+
+q1:
+
+SELECT customers.Customer_ID, customers.Firstname, customers.Lastname, customers.age, customers.Gender, customers.Email,orders.OrderID , orders.OrderDate,orders.Total
+FROM orders JOIN customers ON orders.CustomerID = customers.Customer_ID;
+
+q2:
+
+SELECT customers.Customer_ID, customers.Firstname, customers.Lastname, customers.age, customers.Gender, customers.Email,orders.OrderID , orders.OrderDate,orders.Total,orderitems.OrderItemID,orderitems.OrderID,orderitems.ProductItems,orderitems.Quantity,orderitems.Price FROM orders JOIN customers ON orders.CustomerID = customers.Customer_ID JOIN orderitems ON customers.Customer_ID=orderitems.OrderItemID;
+
+
+q3:
+
+SELECT customers.Customer_ID, customers.Firstname, customers.Lastname, customers.age, customers.Gender, customers.Email,orders.OrderID , orders.OrderDate,orders.Total FROM orders JOIN customers ON orders.CustomerID = customers.Customer_ID WHERE orders.OrderID=2;
+
+q4:
+
+SELECT customers.Customer_ID, customers.Firstname, customers.Lastname, customers.age, customers.Gender, customers.Email,orderitems.OrderItemID,orderitems.OrderID,orderitems.ProductItems,orderitems.Quantity,orderitems.Price
+FROM customers JOIN orderitems ON  customers.Customer_ID = orderitems.OrderID WHERE customers.Customer_ID=1;
+
+q5:
+
+SELECT customers.Customer_ID, customers.Firstname, customers.Lastname, SUM(orderitems.Quantity*orderitems.Price) AS Revenue_Total
+FROM customers JOIN orders on customers.Customer_ID = orders.CustomerID JOIN orderitems ON orders.OrderID = orderitems.OrderID
+GROUP BY customers.Customer_ID, customers.Firstname,customers.Lastname;
+
+
+
